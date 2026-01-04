@@ -21,56 +21,57 @@ def train_epoch(model, loss_function, optimizer, train_loader, device):
     num_correct_predictions = 0
     # Initialize the total number of predictions to 0
     total_predictions = 0
+    EPOCH = 10
+    for i in range(EPOCH):
+        # Iterate over the batches of data from the training DataLoader
+        for batch_idx, (inputs, targets) in enumerate(train_loader):
+            # Move the inputs and targets to the specified device
+            inputs, targets = inputs.to(device), targets.to(device)
 
-    # Iterate over the batches of data from the training DataLoader
-    for batch_idx, (inputs, targets) in enumerate(train_loader):
-        # Move the inputs and targets to the specified device
-        inputs, targets = inputs.to(device), targets.to(device)
+            # Shift target labels down by 1 (adjusting for EMNIST letters dataset)
+            targets = targets - 1
 
-        # Shift target labels down by 1 (adjusting for EMNIST letters dataset)
-        targets = targets - 1
+            optimizer.zero_grad()
 
-        optimizer.zero_grad()
+            outputs = model(inputs)
 
-        outputs = model(inputs)
+            loss = loss_function(outputs, targets)
 
-        loss = loss_function(outputs, targets)
+            loss.backward()
 
-        loss.backward()
+            optimizer.step()
+            running_loss += loss.item()
 
-        optimizer.step()
-        running_loss += loss.item()
+            # Accuracy
+            # Get the predicted indices (by taking the argmax along dimension 1 of the outputs).
+            predicted_indices = outputs.argmax(dim=1) # rows are the images, column are the scores so we get the max score for each img, ex. A B C. max would give you the score, argmax give you the letter which had max score
 
-        # Accuracy
-        # Get the predicted indices (by taking the argmax along dimension 1 of the outputs).
-        predicted_indices = outputs.argmax(dim=1) # rows are the images, column are the scores so we get the max score for each img, ex. A B C. max would give you the score, argmax give you the letter which had max score
+            # Compare predicted indices to actual targets
+            correct_predictions = predicted_indices.eq(targets)
 
-        # Compare predicted indices to actual targets
-        correct_predictions = predicted_indices.eq(targets)
+            # Sum of correct predictions in the current batch.
+            num_correct_in_batch = predicted_indices.eq(targets).sum().item()
+            
+            # Add correct predictions to the total correct predictions.
+            num_correct_predictions += num_correct_in_batch
 
-        # Sum of correct predictions in the current batch.
-        num_correct_in_batch = predicted_indices.eq(targets).sum().item()
-        
-        # Add correct predictions to the total correct predictions.
-        num_correct_predictions += num_correct_in_batch
+            # Get the batch size from the targets and add it to total predictions.
+            batch_size = targets.size(0) # cant hardcode 32 because the last batch may have less. targets is just a 1 dim array
+            total_predictions += batch_size
 
-        # Get the batch size from the targets and add it to total predictions.
-        batch_size = targets.size(0) # cant hardcode 32 because the last batch may have less. targets is just a 1 dim array
-        total_predictions += batch_size
+        # Calculate the average loss for the epoch. 
+        # Divide the running loss by the number (len of train loader) of batches.
+        average_loss = running_loss / len(train_loader)
 
-    # Calculate the average loss for the epoch. 
-    # Divide the running loss by the number (len of train loader) of batches.
-    average_loss = running_loss / len(train_loader)
+        # Calculate the accuracy percentage for the epoch. Multiply correct predictions by 100.
+        accuracy_percentage = (num_correct_predictions / total_predictions) * 100
 
-    # Calculate the accuracy percentage for the epoch. Multiply correct predictions by 100.
-    accuracy_percentage = (num_correct_predictions / total_predictions) * 100
+        ### END CODE HERE ###
 
-    ### END CODE HERE ###
-
-    # Conditionally print based on verbose flag
-    print(
-        f"Epoch Loss (Avg): {average_loss:.3f} | Epoch Acc: {accuracy_percentage:.2f}%"
-    )
+        # Conditionally print based on verbose flag
+        print(
+            f"Epoch Loss (Avg): {average_loss:.3f} | Epoch Acc: {accuracy_percentage:.2f}%"
+        )
 
     # Return the trained model and average loss
     return model, average_loss
