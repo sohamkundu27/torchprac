@@ -3,13 +3,12 @@ import torch
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 from modelarc import model
+from train import train_epoch
 # data ingestion 
-file_path = "./cifar-10/trainLabels.csv"
-data_df = pd.read_csv(file_path)
 
-print(data_df.shape)
 # data preparation
-
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(DEVICE)
 mean = 0.1722273074089701
 std = 0.33094662810661823
 transform = transforms.Compose([
@@ -32,7 +31,7 @@ train_dataloader = DataLoader(
 test_dataset = datasets.EMNIST(
     root = "./data",
     transform = transform,
-    train = True,
+    train = False,
     download = True,
     split = 'letters'
 )
@@ -42,12 +41,18 @@ test_dataloader = DataLoader(
     shuffle= False
 )
 
-for i in train_dataloader:
-    print(i)
+# for i in train_dataloader:
+#     print(i)
 
 
 
 # model archtecture
 mainmodel, loss_function, optimizer = model()
 # training
+
+model_one_train_epoch, _ = train_epoch(model=mainmodel, # model
+                                       loss_function=loss_function, # loss_function
+                                       optimizer=optimizer, # optimizer
+                                       train_loader=train_dataloader, # train_loader
+                                       device=DEVICE) # DEVICE
 # eval
