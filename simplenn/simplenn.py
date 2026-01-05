@@ -4,6 +4,7 @@ from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 from modelarc import model
 from train import train_epoch
+from eval import eval
 # data ingestion 
 
 # data preparation
@@ -50,9 +51,11 @@ test_dataloader = DataLoader(
 mainmodel, loss_function, optimizer = model()
 # training
 
-model_one_train_epoch, _ = train_epoch(model=mainmodel, # model
+trainedmodel, _ = train_epoch(model=mainmodel, # model
                                        loss_function=loss_function, # loss_function
                                        optimizer=optimizer, # optimizer
                                        train_loader=train_dataloader, # train_loader
                                        device=DEVICE) # DEVICE
 # eval
+
+accuracy_percentage = eval(trainedmodel, test_dataloader, DEVICE)
