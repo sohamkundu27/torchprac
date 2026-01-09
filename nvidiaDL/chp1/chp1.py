@@ -1,4 +1,5 @@
 import random
+import matplotlib as plt
 # perceptron function 
 # Sign or Signum function 
 # takes in 2 mats, this is a dot product between, so there is one weight per feature
@@ -19,7 +20,7 @@ X_train = [
 # A list of TARGETS (one for each vector)
 Y_train = [1, -1, 1]
 
-# Weights (same length as a single input vector)
+# Weights (same length as a single input vector) aka same # as # of features 
 w = [0.1, 0.2, -0.5]
 lr = 0.00000000001
 # print(compute_output(w,x))
@@ -49,3 +50,4 @@ def perceptron_training(w, X, Y, lr):
     return w
 
 print(perceptron_training(w, X_train, Y_train, lr))
+
