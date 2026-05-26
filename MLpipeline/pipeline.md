@@ -1,0 +1,5 @@
+- Data Ingestion (done - MNIST)
+- Data Cleaning (done - MNIST) train/test 80/20
+- Model arc
+- Model Train
+- Test
