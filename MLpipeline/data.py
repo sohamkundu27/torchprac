@@ -5,7 +5,7 @@ from torchvision import datasets, transforms
 
 # gimme mnist and put it in a dataset variable|
 def get_mnist_data(batch_size=64):
-    transform = transforms.Compose([transforms.ToTensor()])
+    transform = transforms.ToTensor()
     # Download and load the training and test datasets
     train_dataset = datasets.MNIST(root='', train=True, download=True, transform=transform)
     test_dataset = datasets.MNIST(root='', train=False, download=True, transform=transform)
