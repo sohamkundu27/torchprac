@@ -16,4 +16,3 @@ def get_mnist_data(batch_size=64):
 
     return train_loader, test_loader
 
-get_mnist_data()
