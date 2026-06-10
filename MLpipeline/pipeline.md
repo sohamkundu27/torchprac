@@ -14,3 +14,5 @@
 |    0   N/A  N/A          266408      C   python                                  300MiB |
 +-----------------------------------------------------------------------------------------+
 
+C is compute, thats our process
+G is graphic its for GPU rendering and displaying 
