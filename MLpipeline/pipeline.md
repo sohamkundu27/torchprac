@@ -1,8 +1,10 @@
-- Data Ingestion (done - MNIST)
-- Data Cleaning (done - MNIST) train/test 80/20
-- Model arc
-- Model Train
-- Test
+- Data Ingestion (done - MNIST) data.py
+- Data Cleaning (done - MNIST) train/test 80/20 data.py
+- Model arc modelarc.py
+- Model Train(train/val) train.py
+    process: 
+    clear gradients, do prediction, loss func
+- Test evaluate.py
 
 -----------------------------------------------------------------------------------------+
 | Processes:                                                                              |
