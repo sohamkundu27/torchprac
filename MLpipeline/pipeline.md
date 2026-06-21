@@ -3,7 +3,7 @@
 - Model arc modelarc.py
 - Model Train(train/val) train.py
     process: 
-    clear gradients, do prediction, loss func
+    clear gradients, do prediction, loss function, back prop, update the gradient, collect total_loss
 - Test evaluate.py
 
 -----------------------------------------------------------------------------------------+

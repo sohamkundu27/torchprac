@@ -19,7 +19,7 @@ class SimpleCNN(nn.Module):
 
         self.conv1 = nn.Conv2D(
             in_channels = 1,
-            out_channels = 64, #we are learning 64 filters, each producing one feature map(each with its own useful pattern).
+            out_channels = 64, #we are learning 64 filters, each producing one feature map(28x28)(each with its own useful pattern).
             kernel_size = 3,
             padding = 1
         )
