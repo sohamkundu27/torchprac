@@ -29,7 +29,7 @@ class SimpleCNN(nn.Module):
         # (64, 64, 14, 14)
         self.conv2 = nn.Conv2d(
             in_channels = 64, # channels in from last layer
-            out_channels = 128, # we are learning 128 filters from 64
+            out_channels = 128, # we are learning 128 filters from 64, makes them richer
             kernel_size = 3, # 3x3 grid of learnable weights that slides over the images
             padding = 1 # so the grid can center on the edges
         )
