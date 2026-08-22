@@ -1,0 +1,1 @@
+# create a variable X that has 3 samples and 2 features, and then create a b that has the shape (2,)
